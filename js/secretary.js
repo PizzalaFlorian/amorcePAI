@@ -12,7 +12,6 @@ var cabinet  = {
 				};
 
 
-
 /***Remplissage Infirmers****/
 
 var infirmiersXML = doc.querySelectorAll("infirmier");
@@ -33,7 +32,7 @@ for (var i=0; i<infirmiersXML.length;i++){
 console.log("cabinet :");
 console.log(cabinet);
 
-/***Remplissage Patient*****/
+/***Remplissage Patient & Affectation Patient*****/
 var patientsXML = doc.querySelectorAll("patient");
 
 for (i=0; i<patientsXML.length ;i++){
@@ -57,3 +56,5 @@ for (i=0; i<patientsXML.length ;i++){
 	else
 		cabinet.patientNonAffectes[cabinet.patientNonAffectes.length] = patient;
 }
+
+
