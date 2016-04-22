@@ -1,0 +1,14 @@
+<div ng-drag="true" ng-drag-data="$ctrl.data" ng-drag-succes="$ctrl.onDragComplete($data,$event)" ng-center-anchor="true" class="patient" draggable="true">
+	<b>numero :</b> {{$ctrl.data.numero}}
+	<br/>	
+	<b>Civilité :</b> {{$ctrl.data.prenom}}
+	{{$ctrl.data.nom}}
+	<br/>
+	<b>sexe:</b> {{$ctrl.data.sexe}}
+	<br/>
+	<b>date de naissance :</b> {{$ctrl.data.naissance}}
+	<br/>
+	<b>adresse :</b> {{$ctrl.data.adresse.numero}} {{$ctrl.data.adresse.rue}}
+	<br/>
+	{{$ctrl.data.adresse.codePostal}}  {{$ctrl.data.adresse.ville}} 	
+</div>

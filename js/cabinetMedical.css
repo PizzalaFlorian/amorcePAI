@@ -1,0 +1,102 @@
+
+h1{
+	margin-top:0px;
+	height: 45px;
+	text-align: center;
+	background-color:#C0CFBC;
+	-moz-box-shadow:4px 4px 6px #aaa; 
+	-webkit-box-shadow: 4px 4px 6px #aaa; 
+	box-shadow: 4px 4px 6px #555;
+}
+
+h2{
+	text-align: center;
+}
+
+label
+{
+	float: left;
+	display: block;
+	width: 40%;
+}
+
+button{
+	font-size: 0.85em;
+}
+#hForm input{
+	width : 50%;
+
+}
+
+#hForm select{
+	width : 50%;
+}
+
+#hForm {
+	border: 2px solid grey;
+	border-radius: 5px 10px 0 0;
+	width : 90%;
+	padding-top:4px;
+	padding-bottom:4px;
+}
+
+#infirmiers{
+	float: left;
+/*
+	border: 1px solid black;
+*/
+	border-radius: 5px 10px 0 0;
+	-moz-box-shadow:4px 4px 6px #aaa; 
+	-webkit-box-shadow: 4px 4px 6px #aaa; 
+	box-shadow: 4px 4px 6px #555;
+	width :80%;
+	margin:0 auto;
+	background-color: ##fbfaf8;
+	
+}
+#patientRestants{
+	border-radius: 5px 10px 0 5px;
+	-moz-box-shadow: 8px 8px 12px #aaa; 
+	-webkit-box-shadow: 8px 8px 12px #aaa; 
+	box-shadow: 8px 8px 12px #555;
+	width :20%;
+	margin-left: 80%;
+	background-color: #f9f8f8;
+	text-align : center;
+}
+
+patient{
+margin-left: 10px;
+
+}
+
+#mapId{
+	width:100%;
+	height:250px;
+	margin-top: 5px;
+}
+
+[ng-drop].drag-enter{
+
+	border-radius: 5px 10px 0 10px;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.8) inset;
+
+	position: relative;
+	z-index: 1;
+}
+
+[ng-drop] div{
+	position: relative;
+	z-index: 1;
+}
+
+[ng-drag] #patientRestants .drag-over{
+	opacity: 0.5;
+	position: absolute;
+	z-index:9;
+}
+[ng-drag].dragging{
+	opacity: 0.5;
+	position: absolute;
+	z-index:9;
+}

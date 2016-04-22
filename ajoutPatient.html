@@ -1,0 +1,35 @@
+<form>
+	Ajouter un nouveau patient:
+	<input type="checkbox" ng-model="myVar">
+</form>
+
+<!--
+<div ng-controller="formPatCtrl">
+-->
+<div>
+
+	<form novalidate ng-show="myVar" id="hForm">
+
+		<label for="patientNumber">Numero:</label><input type="text" ng-model="newpatient.patientNumber"><br/>
+		<b>Civilité</b> <br/>
+		<label for="patientName">Prénom:</label><input type="text" ng-model="newpatient.patientName"><br/>
+		<label for="patientForname">Nom:</label><input type="text" ng-model="newpatient.patientForname"><br/>
+		<label for="patientSex">Sexe:</label>
+		<select ng-model="newpatient.patientSex">
+			<option value="">
+			<option value="F">Femme
+			<option value="H">Homme
+		</select><br/><br/>
+		<label for="patientBirthday">Date naissance:</label><input type="text" ng-model="newpatient.patientBirthday"><br/><br/>
+		<b>Adresse</b> <br/>
+		<label for="patientFloor">Numero:</label><input type="text" ng-model="newpatient.patientFloor"><br/>
+		<label for="patientStreet">Rue:</label><input type="text" ng-model="newpatient.patientStreet"><br/>
+		<label for="patientCity">Ville:</label><input type="text" ng-model="newpatient.patientCity"><br/>
+		<label for="patientPostalCode">Code Postal:</label><input type="text" ng-model="newpatient.patientPostalCode"><br/>
+
+		<button ng-click="$ctrl.creerPatient(newpatient)">Creer Patient</button>
+<!--
+		<button ng-click="reset()">Reset</button>
+-->
+	</form>
+</div>

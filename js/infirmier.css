@@ -1,0 +1,43 @@
+.infirmier {
+	border-radius: 5px 10px 0 10px;
+	-moz-box-shadow: 8px 8px 12px #aaa; 
+	-webkit-box-shadow: 8px 8px 12px #aaa; 
+	box-shadow: 8px 8px 12px #555;
+	display: inline-block;
+	margin-left:1%;
+	float: left;
+	text-align :  center;
+	width : 19%;
+	background-color: #f9f8f8;
+}
+
+img{
+	height : 100px;
+}
+
+.dropZone{
+	min-height: 40px;
+}
+
+[ng-drop].drag-enter{
+	border-radius: 5px 10px 0 10px;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.8) inset;
+	position: relative;
+	z-index: 1;
+}
+
+[ng-drop] div{
+	position: relative;
+	z-index: 1;
+}
+
+[ng-drag].drag-over{
+	opacity: 0.5;
+	position: absolute;
+	z-index:9;
+}
+[ng-drag].dragging{
+	opacity: 0.5;
+	position: absolute;
+	z-index:9;
+}

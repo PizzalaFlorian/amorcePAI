@@ -219,7 +219,7 @@ function init(port, applicationServerIP, applicationServerPort) {
 	      , function(req, res) {
 		  if( typeof req.body.infirmier	=== 'undefined'
 		      ||typeof req.body.patient		=== 'undefined' ) {
-		      res.writeHead(500);
+			  res.writeHead(500);
 		      res.end("You should specify 'infirmier' with her id and 'patient' with her social security number in your request.");
 		  } else {// Get node corresponding to the nurse
 		      var nurse = doc.getElementById( req.body.infirmier );

@@ -1,0 +1,20 @@
+
+<div>
+	<div class="infirmier">
+		<div ng-drop="true" ng-drop-success="$ctrl.onDropComplete($data,$event,$ctrl.data.id)" class="dropZone">
+			<b>{{$ctrl.data.prenom}}
+			{{$ctrl.data.nom}}</b><br/>
+			id : {{$ctrl.data.id}}<br/>	
+<!--
+			<img src="{{$ctrl.data.photo}}"><br/>
+-->
+			<img src={{$ctrl.data.photo}}><br/>
+		
+			<b>liste patient : </b><br/>
+			<center>
+				<patient ng-repeat = "pati in $ctrl.data.patient" data="pati"></patient>	
+			</center>
+			<br>
+		</div>
+	</div>
+</div>
