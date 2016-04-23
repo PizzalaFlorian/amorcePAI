@@ -52,10 +52,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular 		= __webpack_require__( 2 		)
-	  , angularMaterial	= __webpack_require__( 4 )
-	  , ngDraggable		= __webpack_require__( 10 )
-	  , NgMap		= __webpack_require__( 11 )
-	  ;
+	  , angularMaterial	= __webpack_require__( 4 );
+	__webpack_require__( 10 );
+	__webpack_require__( 11 );
+	 
 	__webpack_require__( 12 );
 	__webpack_require__( 16 );
 
@@ -63885,13 +63885,13 @@
 				});
 		}
 		
-		function prepareString(adresse) {
+		function prepareStringToQuery(adresse) {
 			var reg =/[ ,-]/g;
 			return adresse.patientFloor + "+" + adresse.patientStreet.replace(reg,"+") + ",+" + adresse.patientPostalCode + "+" + adresse.patientCity.replace(reg,"+") + ",+France";
 		}
 		
 		this.getLatIng = function (adresse){
-			var queryString = prepareString(adresse);
+			var queryString = prepareStringToQuery(adresse);
 			console.log("adresse requete",queryString);
 			return $http({
 				  method: 'POST',
@@ -64028,6 +64028,8 @@
 				lng : 5.768843
 			}
 			
+			this.addressMarker = "";
+			
 			this.newpatient =  {
 				patientName			: "",
 				patientForname		: "",
@@ -64053,6 +64055,7 @@
 				patientCity 		: ""
 			}
 			
+				
 			this.adresseOk="Grenoble";
 			
 			this.myVar = true;
@@ -64068,7 +64071,14 @@
 				controller.location.lng = data.data.results[0].geometry.location.lng;
 			});
 			};
+			
+			function prepareStringAdresse(patient) {
+				return patient.patientFloor + " " + patient.patientStreet + " " + patient.patientPostalCode + " " + patient.patientCity;
+			}
+			
 			this.adrKeyDown = function (){
+				
+				this.addressMarker = prepareStringAdresse(this.newpatient);
 				//~ console.log("event keydown");
 				//~ this.getLatIng(proxyNF,this.newpatient);
 			}
@@ -64085,8 +64095,9 @@
 							//console.log(controller.location.lng);
 							
 							var myMarker = new google.maps.Marker(
-							{ position	: new google.maps.LatLng(controller.location.lat, controller.location.lng)
+							{ position	: new google.maps.LatLng(0, 0)
 							, title		: "Je suis ici!"
+							, icon		: '../images/GoogleMapsMarkers/blue_markerA.png'
 							} );
 							myMarker.setMap(map);
 							
@@ -64219,12 +64230,7 @@
 			};
 			
 			this.setAdr = function () {
-				
-				//~ setTimeout(function(){
-					console.log("set newpat");
-					this.newpatient = angular.copy(this.newpatient);
-					console.log("fin newpat");
-				//~ }, 300);	
+				this.newpatient = angular.copy(this.newpatient);	
 			};
 			
 			proxyNF.getData(this.src).then(function(data){
@@ -64232,7 +64238,6 @@
 				controller.data = data; 
 			});
 			
-			/*ajout patient*/
 			this.loadData = function (noyau) {
 				console.log("loadData Activated");
 				noyau.getData(this.src)
@@ -64240,7 +64245,6 @@
 					controller.data = data;
 				},function(data) {
 					console.log("mauvaise affectation data");
-					//this.data = data;
 					console.log(data);
 				});
 			}
@@ -64296,16 +64300,13 @@
 		});
 	};
 
-	console.log('coucou medical');
-
-	 //TODO pour la suite: faire création et réaffectation de patient
 
 
 /***/ },
 /* 20 */
 /***/ function(module, exports) {
 
-	module.exports = "\r\n<h1>{{$ctrl.titre}}</h1>\r\n\r\n<div id=\"infirmiers\" ng-drop=\"true\" ng-drop-success=\"$ctrl.notify()\" >\r\n\t<h2>les infirmiers :</h2>\r\n\t<infirmier ng-repeat = \"inf in $ctrl.data.infirmiers\" data=\"inf\"></infirmier>\r\n</div>\r\n\r\n<div id=\"patientRestants\" ng-drop=\"true\" ng-drop-success=\"$ctrl.onDropComplete($data,$event,'none')\">\r\n\t\r\n\t\r\n\t<center>\t\t\r\n<!--\r\n\t\t<ajoutpatient  $ctrl.src=\"./data/cabinetInfirmier.xml\"></ajoutpatient>\r\n-->\r\n\t\t<form>\r\n<!--\t\t\tAjouter un nouveau patient:\r\n\r\n\t\t\t<input type=\"checkbox\" ng-model=\"$ctrl.myVar\">\r\n-->\r\n\t\t\t<button ng-click=\"$ctrl.showForm()\">{{$ctrl.textButton}}</button>\r\n\t\t</form>\r\n\t\t<div>\r\n\t\t\t<form novalidate ng-show=\"$ctrl.myVar\" id=\"hForm\">\r\n\r\n\t\t\t\t<label for=\"patientNumber\">Numero:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientNumber\"><br/>\r\n\t\t\t\t<b>Civilité</b> <br/>\r\n\t\t\t\t<label for=\"patientName\">Prénom:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientName\"><br/>\r\n\t\t\t\t<label for=\"patientForname\">Nom:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientForname\"><br/>\r\n\t\t\t\t<label for=\"patientSex\">Sexe:</label>\r\n\t\t\t\t<select ng-model=\"$ctrl.newpatient.patientSex\">\r\n\t\t\t\t\t<option value=\"\">\r\n\t\t\t\t\t<option value=\"F\">Femme\r\n\t\t\t\t\t<option value=\"H\">Homme\r\n\t\t\t\t</select><br/><br/>\r\n\t\t\t\t<label for=\"patientBirthday\">Date naissance:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientBirthday\"><br/><br/>\r\n\t\t\t\t<b>Adresse</b> <br/>\r\n\t\t\t\t<div ng-keypress=\"$ctrl.adrKeyDown()\">\r\n\t\t\t\t\t<label for=\"patientFloor\">Numero:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientFloor\"><br/>\r\n\t\t\t\t\t<label for=\"patientStreet\">Rue:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientStreet\"><br/>\r\n\t\t\t\t\t<label for=\"patientCity\">Ville:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientCity\"><br/>\r\n\t\t\t\t\t<label for=\"patientPostalCode\">Code Postal:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientPostalCode\"><br/>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div ng-click=\"$ctrl.setAdr()\">\r\n<!--\r\n\t\t\t\t<div>\r\n-->\r\n\t\t\t\t\t<ng-map zoom=\"11\" id=\"mapId\"></ng-map>\r\n\t\t\t\t</div>\r\n\t\t\t\t<br/>\r\n\t\t\t\t<button ng-click=\"$ctrl.creerPatient($ctrl.newpatient)\">Creer Patient</button>\r\n\t\t\t\t<button ng-click=\"$ctrl.reset()\">Reset</button>\r\n\t\t\t</form>\r\n\t\t</div>\r\n\t\t<h2>les patients non affectées :</h2>\r\n\t\t<div>\r\n\t\t\t<patient ng-repeat = \"pat in $ctrl.data.patientNonAffectes\" data=\"pat\"></patient>\t\r\n\t\t</div>\r\n\t</center>\r\n\t\r\n</div>\r\n\r\n\r\n"
+	module.exports = "\r\n<h1>{{$ctrl.titre}}</h1>\r\n\r\n<div id=\"infirmiers\" ng-drop=\"true\" ng-drop-success=\"$ctrl.notify()\" >\r\n\t<h2>les infirmiers :</h2>\r\n\t<infirmier ng-repeat = \"inf in $ctrl.data.infirmiers\" data=\"inf\"></infirmier>\r\n</div>\r\n\r\n<div id=\"patientRestants\" ng-drop=\"true\" ng-drop-success=\"$ctrl.onDropComplete($data,$event,'none')\">\r\n\t\r\n\t\r\n\t<center>\t\t\r\n<!--\r\n\t\t<ajoutpatient  $ctrl.src=\"./data/cabinetInfirmier.xml\"></ajoutpatient>\r\n-->\r\n\t\t<form>\r\n<!--\t\t\tAjouter un nouveau patient:\r\n\r\n\t\t\t<input type=\"checkbox\" ng-model=\"$ctrl.myVar\">\r\n-->\r\n\t\t\t<button ng-click=\"$ctrl.showForm()\">{{$ctrl.textButton}}</button>\r\n\t\t</form>\r\n\t\t<div>\r\n\t\t\t<form novalidate ng-show=\"$ctrl.myVar\" id=\"hForm\">\r\n\r\n\t\t\t\t<label for=\"patientNumber\">Numero:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientNumber\"><br/>\r\n\t\t\t\t<b>Civilité</b> <br/>\r\n\t\t\t\t<label for=\"patientName\">Prénom:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientName\"><br/>\r\n\t\t\t\t<label for=\"patientForname\">Nom:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientForname\"><br/>\r\n\t\t\t\t<label for=\"patientSex\">Sexe:</label>\r\n\t\t\t\t<select ng-model=\"$ctrl.newpatient.patientSex\">\r\n\t\t\t\t\t<option value=\"\">\r\n\t\t\t\t\t<option value=\"F\">Femme\r\n\t\t\t\t\t<option value=\"H\">Homme\r\n\t\t\t\t</select><br/><br/>\r\n\t\t\t\t<label for=\"patientBirthday\">Date naissance:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientBirthday\"><br/><br/>\r\n\t\t\t\t<b>Adresse</b> <br/>\r\n\t\t\t\t<div ng-keypress=\"$ctrl.adrKeyDown()\">\r\n\t\t\t\t\t<label for=\"patientFloor\">Numero:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientFloor\"><br/>\r\n\t\t\t\t\t<label for=\"patientStreet\">Rue:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientStreet\"><br/>\r\n\t\t\t\t\t<label for=\"patientCity\">Ville:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientCity\"><br/>\r\n\t\t\t\t\t<label for=\"patientPostalCode\">Code Postal:</label><input type=\"text\" ng-model=\"$ctrl.newpatient.patientPostalCode\"><br/>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div ng-click=\"$ctrl.setAdr()\">\r\n\t\t\t\t\t<ng-map zoom=\"11\" id=\"mapId\">\r\n\t\t\t\t\t\t<marker position=\"{{$ctrl.addressMarker}}\" id=\"markerId\"></marker>\r\n\t\t\t\t\t</ng-map>\r\n\t\t\t\t</div>\r\n\t\t\t\t<br/>\r\n\t\t\t\t<button ng-click=\"$ctrl.creerPatient($ctrl.newpatient)\">Creer Patient</button>\r\n\t\t\t\t<button ng-click=\"$ctrl.reset()\">Reset</button>\r\n\t\t\t</form>\r\n\t\t</div>\r\n\t\t<h2>les patients non affectées :</h2>\r\n\t\t<div>\r\n\t\t\t<patient ng-repeat = \"pat in $ctrl.data.patientNonAffectes\" data=\"pat\"></patient>\t\r\n\t\t</div>\r\n\t</center>\r\n\t\r\n</div>\r\n\r\n\r\n"
 
 /***/ },
 /* 21 */
@@ -64334,6 +64335,7 @@
 		//var cabinet = require("./cabinetMedical.js")(angularModule);
 
 		var controller = function( proxyNF ){ 
+		//var controller = function(){ 
 			
 			this.data = {};
 			controller = this;
@@ -64356,10 +64358,12 @@
 				console.log("drop success, data:", data,id);
 				console.log(data.numero,id);
 				proxyNF.affecterPatient(data.numero,id)
-				//.then(controller.loadData(proxyNF));	
+				//~ .then(controller.loadData(proxyNF));	
 			};
 			
 		};
+		
+		controller.$inject = [ proxyNF];
 					
 		angularModule.component("infirmier",{
 			template : template,

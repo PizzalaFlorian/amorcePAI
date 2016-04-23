@@ -38,13 +38,13 @@ var proxyNF = function($http) {
 			});
 	}
 	
-	function prepareString(adresse) {
+	function prepareStringToQuery(adresse) {
 		var reg =/[ ,-]/g;
 		return adresse.patientFloor + "+" + adresse.patientStreet.replace(reg,"+") + ",+" + adresse.patientPostalCode + "+" + adresse.patientCity.replace(reg,"+") + ",+France";
 	}
 	
 	this.getLatIng = function (adresse){
-		var queryString = prepareString(adresse);
+		var queryString = prepareStringToQuery(adresse);
 		console.log("adresse requete",queryString);
 		return $http({
 			  method: 'POST',

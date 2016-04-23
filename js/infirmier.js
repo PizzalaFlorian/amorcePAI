@@ -7,6 +7,7 @@ module.exports = function(angularModule) {
 	//var cabinet = require("./cabinetMedical.js")(angularModule);
 
 	var controller = function( proxyNF ){ 
+	//var controller = function(){ 
 		
 		this.data = {};
 		controller = this;
@@ -29,10 +30,12 @@ module.exports = function(angularModule) {
 			console.log("drop success, data:", data,id);
 			console.log(data.numero,id);
 			proxyNF.affecterPatient(data.numero,id)
-			//.then(controller.loadData(proxyNF));	
+			//~ .then(controller.loadData(proxyNF));	
 		};
 		
 	};
+	
+	controller.$inject = [ proxyNF];
 				
 	angularModule.component("infirmier",{
 		template : template,

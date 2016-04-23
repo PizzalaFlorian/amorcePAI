@@ -1,8 +1,8 @@
 var angular 		= require( "angular" 		)
-  , angularMaterial	= require( "angular-material" )
-  , ngDraggable		= require( "ng-draggable" )
-  , NgMap		= require( "ngmap" )
-  ;
+  , angularMaterial	= require( "angular-material" );
+require( "ng-draggable" );
+require( "ngmap" );
+ 
 require( "angular-material/angular-material.css" );
 require( "./secretary.css" );
 

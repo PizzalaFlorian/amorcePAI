@@ -16,6 +16,8 @@ module.exports = function(angularModule) {
 			lng : 5.768843
 		}
 		
+		this.addressMarker = "";
+		
 		this.newpatient =  {
 			patientName			: "",
 			patientForname		: "",
@@ -41,6 +43,7 @@ module.exports = function(angularModule) {
 			patientCity 		: ""
 		}
 		
+			
 		this.adresseOk="Grenoble";
 		
 		this.myVar = true;
@@ -56,7 +59,14 @@ module.exports = function(angularModule) {
 			controller.location.lng = data.data.results[0].geometry.location.lng;
 		});
 		};
+		
+		function prepareStringAdresse(patient) {
+			return patient.patientFloor + " " + patient.patientStreet + " " + patient.patientPostalCode + " " + patient.patientCity;
+		}
+		
 		this.adrKeyDown = function (){
+			
+			this.addressMarker = prepareStringAdresse(this.newpatient);
 			//~ console.log("event keydown");
 			//~ this.getLatIng(proxyNF,this.newpatient);
 		}
@@ -73,8 +83,9 @@ module.exports = function(angularModule) {
 						//console.log(controller.location.lng);
 						
 						var myMarker = new google.maps.Marker(
-						{ position	: new google.maps.LatLng(controller.location.lat, controller.location.lng)
+						{ position	: new google.maps.LatLng(0, 0)
 						, title		: "Je suis ici!"
+						, icon		: '../images/GoogleMapsMarkers/blue_markerA.png'
 						} );
 						myMarker.setMap(map);
 						
@@ -207,12 +218,7 @@ module.exports = function(angularModule) {
 		};
 		
 		this.setAdr = function () {
-			
-			//~ setTimeout(function(){
-				console.log("set newpat");
-				this.newpatient = angular.copy(this.newpatient);
-				console.log("fin newpat");
-			//~ }, 300);	
+			this.newpatient = angular.copy(this.newpatient);	
 		};
 		
 		proxyNF.getData(this.src).then(function(data){
@@ -220,7 +226,6 @@ module.exports = function(angularModule) {
 			controller.data = data; 
 		});
 		
-		/*ajout patient*/
 		this.loadData = function (noyau) {
 			console.log("loadData Activated");
 			noyau.getData(this.src)
@@ -228,7 +233,6 @@ module.exports = function(angularModule) {
 				controller.data = data;
 			},function(data) {
 				console.log("mauvaise affectation data");
-				//this.data = data;
 				console.log(data);
 			});
 		}
@@ -284,6 +288,3 @@ module.exports = function(angularModule) {
 	});
 };
 
-console.log('coucou medical');
-
- //TODO pour la suite: faire création et réaffectation de patient
