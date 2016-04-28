@@ -77,7 +77,7 @@
                 (Pansement de brûlure etendue ou de plaie chimique ou thermique etendue,
                     sur une surface superieure à 5 % de la surface corporelle.....)
                 -->
-			<visite date="2014-12-08" intervenant="002">
+			<visite date="2014-12-08" intervenant="003">
 				<acte id="300"/>               
 			</visite>
 
@@ -101,7 +101,7 @@
                 jour et injection intraveineuse directe isolee d'anthalgiques les 
                 autres jours.
                 -->
-			<visite date="2014-12-08" intervenant="001">
+			<visite date="2014-12-08" intervenant="002">
 				<acte id="101"/>
 				<acte id="104"/>               
 			</visite>
@@ -161,7 +161,7 @@
 				<ville>Grenoble</ville>
 				<codePostal>38000</codePostal>
 			</adresse>
-			<visite date="null" intervenant="003">
+			<visite date="null" intervenant="002">
 			</visite>
 		</patient>
 		<patient>
@@ -176,8 +176,8 @@
 				<ville>Le Pont de Claix</ville>
 				<codePostal>38800</codePostal>
 			</adresse>
-			<visite date="null" intervenant="null">
+			<visite date="null" intervenant="">
 			</visite>
 		</patient>
-	</patients>
+	<patient><nom>Stephanie</nom><prenom>Monaco</prenom><numero>00000000001</numero><sexe>F</sexe><naissance>1970-01-01</naissance><visite date="2014-12-08" intervenant=""/><adresse><etage>26B</etage><numero>26B</numero><rue>Avenue Maréchal Randon</rue><ville>Grenoble</ville><codePostal>38000</codePostal></adresse></patient></patients>
 </cabinet>

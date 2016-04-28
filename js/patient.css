@@ -14,9 +14,6 @@
 .patient:hover {
 	border-radius: 10px;
 	background-color: #e1e1e1;
-/*
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8) inset;
-*/
 }
 
 *{
@@ -36,6 +33,12 @@
 	z-index:9;
 }
 [ng-drag].dragging{
+	opacity: 0.5;
+	position: absolute;
+	z-index:9;
+}
+
+.dragging{
 	opacity: 0.5;
 	position: absolute;
 	z-index:9;

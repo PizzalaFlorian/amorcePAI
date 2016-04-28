@@ -1,8 +1,5 @@
 var proxyNF = function($http) {
-	// Ajoutez le code de construction du service
-	// Cette fonction sera appelée pour instancier un objet service
-	// Utilisez $http pour télécharger la base de données
-	
+		
 		$http	.get ( "data/cabinetInfirmier.xml" )
 			.then( function(response) {
 		
@@ -13,13 +10,10 @@ var proxyNF = function($http) {
 	})	
 	
 	this.getData = function(src){
-		console.log("NF -  getDATA");
-		console.log(src);
 		return $http.get(src).then(proccessData);
 	}
 	
 	this.creerPatient = function (newpatient){
-		console.log("NF - creer Patient");
 		return $http({
 		  method: 'POST',
 		  url: 'http://localhost:8080/addPatient',
@@ -37,23 +31,8 @@ var proxyNF = function($http) {
 				
 			});
 	}
-	
-	function prepareStringToQuery(adresse) {
-		var reg =/[ ,-]/g;
-		return adresse.patientFloor + "+" + adresse.patientStreet.replace(reg,"+") + ",+" + adresse.patientPostalCode + "+" + adresse.patientCity.replace(reg,"+") + ",+France";
-	}
-	
-	this.getLatIng = function (adresse){
-		var queryString = prepareStringToQuery(adresse);
-		console.log("adresse requete",queryString);
-		return $http({
-			  method: 'POST',
-			  url: 'https://maps.googleapis.com/maps/api/geocode/json?address='+queryString+'&key=AIzaSyC0oGYYSN72lukTU1PK5G6ImDBTurcYyBY'
-			});
-	}
-	
+		
 	this.affecterPatient = function(numCQ,idInfirmier) {
-		console.log("NF - reaffecter Patient");
 		return $http({
 		  method: 'POST',
 		  url: 'http://localhost:8080/affectation',
@@ -91,8 +70,7 @@ function isset ()
 }
 
 function proccessData (response){
-	console.log("NF - proccessData");
-	//~ console.log(response.data);
+
 	var parser = new DOMParser();
 	var doc = parser.parseFromString(response.data ,"application/xml");
 	
@@ -137,7 +115,7 @@ function proccessData (response){
 								}
 						}
 		var intervenant = patientXML.querySelector("visite").getAttribute("intervenant");
-		//~ console.log(intervenant);
+		
 		if(isset(intervenant)){
 			cabinet.infirmiers[intervenant].patient[cabinet.infirmiers[intervenant].patient.length] = patient;
 		}
@@ -156,4 +134,3 @@ module.exports = function(mod) {
 	return id;
 };
 
-console.log('coucou nf');

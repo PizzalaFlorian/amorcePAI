@@ -1,7 +1,7 @@
 var template = require( "../cabinetMedical.html" );
 require( "./cabinetMedical.css" );
 require( "./ajoutPatient.css" );
-var angular = require ("angular");
+var angular = require ("angular"); // sert ici pour la copie d'objet.
 
 module.exports = function(angularModule) {
 	var proxyNF = require("./NF.js")(angularModule);
@@ -43,84 +43,58 @@ module.exports = function(angularModule) {
 			patientCity 		: ""
 		}
 		
-			
-		this.adresseOk="Grenoble";
-		
-		this.myVar = true;
+		this.myVar = true; /*Controle formuluaire*/
 		this.textButton = "Fermer ajouter patient";
 		
-		
-		this.getLatIng = function(noyau,adresse){
-			console.log("chercher Adresse");
-			//console.log(adresse);
-			noyau.getLatIng(adresse).then(function(data){
-			//~ console.log("coordonnée:",data.data.results[0].geometry.location);
-			controller.location.lat = data.data.results[0].geometry.location.lat;
-			controller.location.lng = data.data.results[0].geometry.location.lng;
-		});
-		};
-		
-		function prepareStringAdresse(patient) {
+		function prepareStringAdresse(patient) { //convertie un objet patient en une chaine adresse pour placer le marker
 			return patient.patientFloor + " " + patient.patientStreet + " " + patient.patientPostalCode + " " + patient.patientCity;
 		}
 		
-		this.adrKeyDown = function (){
-			
+		this.adrKeyDown = function (){ //affecte l'adresse au marker
 			this.addressMarker = prepareStringAdresse(this.newpatient);
-			//~ console.log("event keydown");
-			//~ this.getLatIng(proxyNF,this.newpatient);
 		}
-		/****init Map *****/
+		
+		/****Map *****/
 		NgMap.getMap({timeout:5000, id:"mapId"})
 				.then(
 					function (map) {
-						console.log("init map");
 						
 						var Center = new google.maps.LatLng(45.193861, 5.768843);
 						google.maps.event.trigger(map, 'resize');
 						map.setCenter(Center);
-						
-						//console.log(controller.location.lng);
-						
-						var myMarker = new google.maps.Marker(
-						{ position	: new google.maps.LatLng(0, 0)
-						, title		: "Je suis ici!"
-						, icon		: '../images/GoogleMapsMarkers/blue_markerA.png'
-						} );
-						myMarker.setMap(map);
-						
+					
 						var geocoder = new google.maps.Geocoder();
 						
 						function geocoderParser( res ) {
-							if(res[0].address_components.length == 7){
+							var adresse ="";
+							if(res[0].address_components.length == 7){ //Cas l'adresse pointée a un numero de rue.
 								controller.newpatient.patientFloor = res[0].address_components[0].long_name;
 								controller.newpatient.patientStreet = res[0].address_components[1].long_name;
 								controller.newpatient.patientCity = res[0].address_components[2].long_name;
 							}
-							else{
+							else{ //cas l'adresse pointée ne possède pas de numero de rue.
 								controller.newpatient.patientFloor = "00";
 								controller.newpatient.patientStreet = res[0].address_components[0].long_name;
 								controller.newpatient.patientCity = res[0].address_components[1].long_name;
 							}
-									
+							// récupère le code postal.		
 							controller.newpatient.patientPostalCode = res[0].address_components[res[0].address_components.length-1].long_name;
 							
-							//console.log("form vide",controller.newpatient);
+							return adresse;
 						}
 						
 						var evt = google.maps.event.addListener(
 							  map
 							, 'click'
 							, function(evt) {
-								myMarker.setPosition(evt.latLng);
-								
+								//transmet localisation au marker
+								location.lat = evt.latLng.lat();
+								location.lng = evt.latLng.lng();
 								geocoder.geocode( 
 									{'latLng': evt.latLng}
-									, function(results, status) {
+									, function(results, status) { // calcul de l'adresse pour le formulaire
 										if (status == google.maps.GeocoderStatus.OK) {
-											geocoderParser(results);
-											console.log("fin geocoder");
-											//~ controller.setAdr();
+											var adresse = geocoderParser(results);
 										} 
 										else {
 											console.error("Error geocoding:", status);
@@ -131,17 +105,14 @@ module.exports = function(angularModule) {
 							}
 						);
 						
-						console.log("fin init map");
+						//~ console.log("fin init map");
 					}, function (err) {
 						console.log("Google Map Error", err);
 					}
 				);
-				
-				
-		/********************/
+		/********** Fin Map **********/
 		
-		this.showForm = function(){
-			console.log("show form");
+		this.showForm = function(){ //Gestion du masquage / affichage du formulaire d'ajout du patient
 			
 			this.myVar = !this.myVar;
 			
@@ -151,83 +122,29 @@ module.exports = function(angularModule) {
 			else {
 				this.textButton = "Fermer ajouter patient";
 			}
-			NgMap.getMap({timeout:5000, id:"mapId"})
-				.then(
-					function (map) {
-						console.log("re-init map");
-						
-						var currCenter = new google.maps.LatLng(45.193861, 5.768843);
-						google.maps.event.trigger(map, 'resize');
-						map.setCenter(currCenter);
-						
-						var myMarker = new google.maps.Marker(
-						{ position	: currCenter
-						, title		: "Je suis ici!"
-						} );
-						myMarker.setMap(map);
-						
-						var geocoder = new google.maps.Geocoder();
-						
-						function geocoderParser( res ) {
-							if(res[0].address_components.length == 7){
-								controller.newpatient.patientFloor = res[0].address_components[0].long_name;
-								controller.newpatient.patientStreet = res[0].address_components[1].long_name;
-								controller.newpatient.patientCity = res[0].address_components[2].long_name;
-							}
-							else{
-								controller.newpatient.patientFloor = "00";
-								controller.newpatient.patientStreet = res[0].address_components[0].long_name;
-								controller.newpatient.patientCity = res[0].address_components[1].long_name;
-							}
-									
-							controller.newpatient.patientPostalCode = res[0].address_components[res[0].address_components.length-1].long_name;
-						}
-						
-						var evt = google.maps.event.addListener(
-							  map
-							, 'click'
-							, function(evt) {
-								myMarker.setPosition(evt.latLng);
-								
-								geocoder.geocode( 
-									{'latLng': evt.latLng}
-									, function(results, status) {
-										if (status == google.maps.GeocoderStatus.OK) {
-											geocoderParser(results);
-											console.log("fin geocoder");
-										} 
-										else {
-											console.error("Error geocoding:", status);
-										}
-									}
-								);
-							
-							}
-						);
-						
-						console.log("fin init map");
-					}, function (err) {
-						console.log("Google Map Error", err);
-					}
-				);
 		}
 
-		this.reset = function(){
-			console.log("reset form");
+		this.reset = function(){ // vide les champs du formulaire d'ajout de patient
 			this.newpatient = angular.copy(formVide);
+			
 		};
 		
-		this.setAdr = function () {
-			this.newpatient = angular.copy(this.newpatient);	
+		function prepareCoordAdresse(loc){ //perpare les données pour le marker sur la carte.
+			return "["+loc.lat+", "+loc.lng+"]";
+		}
+		
+		this.setAdr = function () { // recopie l'adresse sur le formulaire et replace le marker sur la carte
+			this.newpatient = angular.copy(this.newpatient);
+			this.addressMarker = prepareCoordAdresse(location);	
+			//~ console.log("adresse",this.addressMarker);
 		};
 		
-		proxyNF.getData(this.src).then(function(data){
-			console.log(data);
+		proxyNF.getData(this.src).then(function(data){ //rafraichit les données.
 			controller.data = data; 
 		});
 		
-		this.loadData = function (noyau) {
-			console.log("loadData Activated");
+		this.loadData = function (noyau) { //appelle un rafraichissement de données et affecte les nouvelles
+			//~ console.log("loadData Activated");
 			noyau.getData(this.src)
 			.then(function(data) {
 				controller.data = data;
@@ -237,38 +154,32 @@ module.exports = function(angularModule) {
 			});
 		}
 						
-		this.creerPatient = function(newpatient) {
+		this.creerPatient = function(newpatient) { //ajoute un patient suivant les données du formulaire
 			if(newpatient.patientPostalCode != "" ){	
-				console.log('addpatient');
+				//~ console.log('addpatient');
 				proxyNF.creerPatient(newpatient)
 				.then(
 				function(){
-					controller.reset();
-					console.log('retour post bien passer');
+					controller.reset();//vide le formulaire
+					//~ console.log('reussite ajout');
 					controller.loadData(proxyNF);},
 				function(){
-					console.log('retour post mal passer');
+					console.log('erreure ajout patient');
 					});
 			}
 		};
 		
-		this.notify = function(){
+		this.notify = function(){ //rafraichie les données après un délai
 			setTimeout(function(){
-				console.log("debut notify");
 				controller.loadData(proxyNF);
-				console.log("fin notify");
 			}, 250);
 			
 		};
 				
-		this.onDropComplete=function(data,evt,id){
-			console.log("drop medical");
-			console.log("drop success, data:", data,id);
-			console.log(data.numero,id);	
+		this.onDropComplete=function(data,evt,id){ //réaffecte un patient via un drag and drop	
 			proxyNF.affecterPatient(data.numero,id)
 			.then(function(){
-				controller.loadData(proxyNF);
-				console.log("drop complete");				
+				controller.loadData(proxyNF);				
 				});
 			
 		};	

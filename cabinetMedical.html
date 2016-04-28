@@ -7,24 +7,18 @@
 </div>
 
 <div id="patientRestants" ng-drop="true" ng-drop-success="$ctrl.onDropComplete($data,$event,'none')">
-	
-	
+		
 	<center>		
-<!--
-		<ajoutpatient  $ctrl.src="./data/cabinetInfirmier.xml"></ajoutpatient>
--->
 		<form>
-<!--			Ajouter un nouveau patient:
-
-			<input type="checkbox" ng-model="$ctrl.myVar">
--->
 			<button ng-click="$ctrl.showForm()">{{$ctrl.textButton}}</button>
 		</form>
 		<div>
 			<form novalidate ng-show="$ctrl.myVar" id="hForm">
 
 				<label for="patientNumber">Numero:</label><input type="text" ng-model="$ctrl.newpatient.patientNumber"><br/>
+				
 				<b>Civilité</b> <br/>
+				
 				<label for="patientName">Prénom:</label><input type="text" ng-model="$ctrl.newpatient.patientName"><br/>
 				<label for="patientForname">Nom:</label><input type="text" ng-model="$ctrl.newpatient.patientForname"><br/>
 				<label for="patientSex">Sexe:</label>
@@ -34,13 +28,16 @@
 					<option value="H">Homme
 				</select><br/><br/>
 				<label for="patientBirthday">Date naissance:</label><input type="text" ng-model="$ctrl.newpatient.patientBirthday"><br/><br/>
-				<b>Adresse</b> <br/>
+				
+				
 				<div ng-keypress="$ctrl.adrKeyDown()">
+					<b>Adresse</b> <br/>
 					<label for="patientFloor">Numero:</label><input type="text" ng-model="$ctrl.newpatient.patientFloor"><br/>
 					<label for="patientStreet">Rue:</label><input type="text" ng-model="$ctrl.newpatient.patientStreet"><br/>
 					<label for="patientCity">Ville:</label><input type="text" ng-model="$ctrl.newpatient.patientCity"><br/>
 					<label for="patientPostalCode">Code Postal:</label><input type="text" ng-model="$ctrl.newpatient.patientPostalCode"><br/>
 				</div>
+				
 				<div ng-click="$ctrl.setAdr()">
 					<ng-map zoom="11" id="mapId">
 						<marker position="{{$ctrl.addressMarker}}" id="markerId"></marker>
@@ -51,10 +48,12 @@
 				<button ng-click="$ctrl.reset()">Reset</button>
 			</form>
 		</div>
+		
 		<h2>les patients non affectées :</h2>
 		<div>
 			<patient ng-repeat = "pat in $ctrl.data.patientNonAffectes" data="pat"></patient>	
 		</div>
+		
 	</center>
 	
 </div>

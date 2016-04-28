@@ -25,7 +25,6 @@ button{
 }
 #hForm input{
 	width : 50%;
-
 }
 
 #hForm select{
@@ -42,9 +41,6 @@ button{
 
 #infirmiers{
 	float: left;
-/*
-	border: 1px solid black;
-*/
 	border-radius: 5px 10px 0 0;
 	-moz-box-shadow:4px 4px 6px #aaa; 
 	-webkit-box-shadow: 4px 4px 6px #aaa; 
@@ -66,8 +62,7 @@ button{
 }
 
 patient{
-margin-left: 10px;
-
+	margin-left: 10px;
 }
 
 #mapId{
@@ -80,7 +75,6 @@ margin-left: 10px;
 
 	border-radius: 5px 10px 0 10px;
 	box-shadow: 0 0 15px rgba(0, 0, 0, 0.8) inset;
-
 	position: relative;
 	z-index: 1;
 }
@@ -96,6 +90,12 @@ margin-left: 10px;
 	z-index:9;
 }
 [ng-drag].dragging{
+	opacity: 0.5;
+	position: absolute;
+	z-index:9;
+}
+
+.dragging{
 	opacity: 0.5;
 	position: absolute;
 	z-index:9;
